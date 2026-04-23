@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SportyStyle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+  <h1>SportyStyle 🏋️</h1>
+  <div class="top-bar">
+    <button onclick="toggleCart()">🛒</button>
+    <span id="cartCount">0</span>
+  </div>
+</header>
+
+<!-- 🔥 BANNER -->
+<div class="banner">
+  <img id="bannerImg" src="">
+</div>
+
+<main>
+
+  <!-- PRODUCTOS -->
+  <section id="productList" class="productos"></section>
+
+  <!-- CARRITO -->
+  <aside class="carrito">
+    <h2>Carrito</h2>
+    <div id="cartItems"></div>
+    <h3 id="total">Total: $0</h3>
+    <button onclick="irACompra()">Comprar</button>
+    <button onclick="clearCart()">Vaciar</button>
+  </aside>
+
+  <!-- MODAL COMPRA -->
+  <div id="modalCompra" class="modal">
+    <div class="modal-content">
+      <span class="cerrar-modal" onclick="cerrarModalCompra()">✖</span>
+      <h2>Datos de compra</h2>
+      <form id="checkoutForm">
+        <input id="name" placeholder="Nombre completo" required>
+        <input id="email" placeholder="Correo" required>
+        <input id="phone" placeholder="Teléfono" required>
+        <button type="submit">Continuar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PAGO -->
+  <div id="modalPago" class="modal">
+    <div class="modal-content">
+      <span class="cerrar-modal" onclick="cerrarModalPago()">✖</span>
+      <h2>Pago</h2>
+      <input id="cardNumber" placeholder="Número de tarjeta">
+      <input id="expiry" placeholder="MM/AA">
+      <input id="cvv" placeholder="CVV">
+      <button onclick="finalizarCompra()">Pagar</button>
+      <p id="loadingPago">Procesando pago...</p>
+    </div>
+  </div>
+
+  <!-- MODAL IMAGEN -->
+  <div id="imgModal" class="img-modal">
+    <span class="cerrar" onclick="cerrarImagen()">&times;</span>
+    <img id="imgGrande">
+  </div>
+
+  <div id="toast"></div>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
