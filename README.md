@@ -14,8 +14,7 @@ Se usa Session Storage para mantener productos durante la sesión.
 2. Agregar productos
 3. Validación formulario
 4. Pago simulado
-5. Descarga de boleta
-6. Limpieza de sesión
+5. Limpieza de sesión
 
 ## Seguridad
 
