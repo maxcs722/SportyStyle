@@ -1,3 +1,36 @@
+// 🔐 AUTH0 CONFIG
+let auth0Client = null;
+
+const authConfig = {
+  domain: "TU_DOMINIO.auth0.com",
+  client_id: "TU_CLIENT_ID"
+};
+
+async function initAuth(){
+
+    auth0Client = await createAuth0Client({
+      domain: authConfig.domain,
+      client_id: authConfig.client_id,
+      cacheLocation: "localstorage",
+      useRefreshTokens: true
+    });
+  
+    if(window.location.search.includes("code=")){
+      await auth0Client.handleRedirectCallback();
+      window.history.replaceState({}, document.title, "/");
+    }
+  
+    const isAuthenticated = await auth0Client.isAuthenticated();
+  
+    if(isAuthenticated){
+      const user = await auth0Client.getUser();
+  
+      document.getElementById("userWelcome").innerText = "Hola " + user.name;
+      document.getElementById("loginBtn").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "inline-block";
+    }
+  }
+
 // ================= DOM =================
 const productList = document.getElementById("productList");
 const cartItems = document.getElementById("cartItems");
@@ -187,6 +220,17 @@ function irACompra(){
 
 // 🔥 ================= COMPRA =================
 function irACompra(){
+
+    const user = localStorage.getItem("user");
+  
+    if(!user){
+      showToast("Debes iniciar sesión 🔐");
+      abrirLogin();
+      return;
+    }
+ }
+  
+function irACompra(){
   const cart = getCart();
 
   if(cart.length === 0){
@@ -206,6 +250,30 @@ function irACompra(){
 function cerrarModalCompra(){
   document.getElementById("modalCompra").style.display = "none";
 }
+
+// 🔐 BOTONES AUTH
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if(loginBtn){
+    loginBtn.addEventListener("click", async () => {
+      await auth0Client.loginWithRedirect({
+        redirect_uri: window.location.origin
+      });
+    });
+  }
+
+  if(logoutBtn){
+    logoutBtn.addEventListener("click", () => {
+      auth0Client.logout({
+        returnTo: window.location.origin
+      });
+    });
+  }
+
+});
 
 // ================= FORM =================
 document.getElementById("checkoutForm").addEventListener("submit", function(e){
@@ -364,7 +432,62 @@ setInterval(cambiarBanner, 3000);
 document.addEventListener("DOMContentLoaded", cambiarBanner);
 
 // ================= INIT =================
-document.addEventListener("DOMContentLoaded",()=>{
-  renderProductos();
-  renderCart();
-});
+document.addEventListener("DOMContentLoaded", async ()=>{
+
+    renderProductos();
+    renderCart();
+    cambiarBanner();
+    actualizarUsuario();
+  
+    await initAuth(); // 🔥 ESTA LÍNEA ES CLAVE
+  
+  });   
+
+
+
+  // ================= LOGIN SIMPLE =================
+
+function abrirLogin(){
+  document.getElementById("loginModal").style.display = "flex";
+}
+
+function cerrarLogin(){
+  document.getElementById("loginModal").style.display = "none";
+}
+
+function login(){
+  const email = document.getElementById("loginEmail").value;
+  const pass = document.getElementById("loginPass").value;
+
+  if(email.length < 5 || pass.length < 3){
+    showToast("Datos inválidos");
+    return;
+  }
+
+  localStorage.setItem("user", JSON.stringify({ email }));
+
+  cerrarLogin();
+  actualizarUsuario();
+
+  showToast("Bienvenido 👋");
+}
+
+function logout(){
+  localStorage.removeItem("user");
+  actualizarUsuario();
+}
+
+function actualizarUsuario(){
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const welcome = document.getElementById("userWelcome");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if(user){
+    welcome.innerText = "Hola " + user.email;
+    logoutBtn.style.display = "inline-block";
+  } else {
+    welcome.innerText = "";
+    logoutBtn.style.display = "none";
+  }
+}
