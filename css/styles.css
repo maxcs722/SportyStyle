@@ -152,3 +152,8 @@ button {
     font-size: 30px;
     cursor: pointer;
 }
+
+.desc {
+    font-size: 14px;
+    color: #ccc;
+    margin: 5px 0; }
