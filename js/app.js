@@ -144,7 +144,7 @@ function renderProductos(){
       
       <h3>${p.nombre}</h3>
     
-      <p class="desc">${p.descripcion}</p> 👈 ESTA ES LA CLAVE
+      <p class="desc">${p.descripcion}</p> 
     
       <p>$${p.precio}</p>
     
@@ -152,6 +152,29 @@ function renderProductos(){
     </div>`;
   });
 }
+
+// ================= IMAGEN ZOOM =================
+function abrirImagen(id){
+  const producto = productos.find(p => p.id === id);
+
+  const modal = document.getElementById("modalImagen");
+  const img = document.getElementById("imgGrande");
+
+  if(!producto || !modal || !img){
+    console.error("Error en modal de imagen");
+    return;
+  }
+
+  img.src = producto.imagen;
+  modal.style.display = "flex";
+}
+
+function cerrarImagen(e){
+  if(e.target.id === "modalImagen"){
+    document.getElementById("modalImagen").style.display = "none";
+  }
+}
+
 // ================= DETALLE COMPRA =================
 function generarDetalleCompra(){
 
