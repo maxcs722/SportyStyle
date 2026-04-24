@@ -136,6 +136,32 @@ function renderProductos(){
     </div>`;
   });
 }
+// ================= DETALLE COMPRA =================
+function generarDetalleCompra(){
+
+  const cart = getCart();
+  const detalle = document.getElementById("detalleCompra");
+
+  let html = "";
+  let total = 0;
+
+  cart.forEach(p => {
+    const subtotal = p.precio * p.cantidad;
+    total += subtotal;
+
+    html += `
+      <div style="margin-bottom:10px;">
+        <strong>${p.nombre}</strong><br>
+        Cantidad: ${p.cantidad}<br>
+        Subtotal: $${subtotal.toLocaleString("es-CL")}
+      </div>
+    `;
+  });
+
+  html += `<hr><h3>Total: $${total.toLocaleString("es-CL")}</h3>`;
+
+  detalle.innerHTML = html;
+}
 
 // ================= STORAGE =================
 function getCart(){
@@ -292,12 +318,29 @@ function finalizarCompra(){
   loading.style.display = "block";
 
   setTimeout(()=>{
+
     loading.style.display = "none";
-    showToast("Compra realizada 🎉");
-    clearCart();
+
+    // 🔥 generar detalle
+    generarDetalleCompra();
+
+    // cerrar modal de pago
     document.getElementById("modalPago").style.display = "none";
+
+    // mostrar confirmación
+    document.getElementById("modalConfirmacion").style.display = "flex";
+
+    // limpiar carrito
+    clearCart();
+
     carritoBox.classList.remove("active");
+
   },1500);
+}
+
+// ================= CERRAR CONFIRMACION =================
+function cerrarConfirmacion(){
+  document.getElementById("modalConfirmacion").style.display = "none";
 }
 
 // ================= LOGIN SIMPLE =================

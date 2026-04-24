@@ -142,11 +142,13 @@ button {
     width: auto;
     height: auto;
     border-radius: 10px;
-    object-fit: contain; }
+    object-fit: contain;
+}
 
 .cerrar {
     position: absolute;
     top: 20px;
     right: 30px;
     font-size: 30px;
-    cursor: pointer; }
+    cursor: pointer;
+}

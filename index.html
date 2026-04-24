@@ -49,13 +49,13 @@
             <div class="modal-content">
                 <span class="cerrar-modal" onclick="cerrarLogin()">✖</span>
                 <h2>Iniciar Sesión</h2>
-                
+
                 <input type="text" id="loginNombre" placeholder="Nombre">
-                
+
                 <input type="email" id="loginEmail" placeholder="Correo">
-                
+
                 <input type="password" id="loginPass" placeholder="Contraseña">
-                
+
                 <button onclick="login()">Entrar</button>
             </div>
         </div>
@@ -89,6 +89,18 @@
 
                 <p id="loadingPago" style="display:none;">Procesando pago...</p>
             </div>
+        </div>
+
+        <!-- MODAL CONFIRMACION -->
+        <div id="modalConfirmacion" class="modal">
+            <div class="modal-content">
+                <h2>✅ Compra realizada</h2>
+        
+                <div id="detalleCompra"></div>
+        
+                <button onclick="cerrarConfirmacion()">Cerrar</button>
+            </div>  
+        
         </div>
 
         <!-- MODAL IMAGEN -->
