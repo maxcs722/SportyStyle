@@ -1,9 +1,9 @@
-// 🔐 AUTH0 CONFIG
+//  AUTH0 CONFIG
 let auth0Client = null;
 
 const authConfig = {
-  domain: "TU_DOMINIO.auth0.com",
-  client_id: "TU_CLIENT_ID"
+  domain: "dev-5zf1w7uobz0bj3fm.us.auth0.com",
+  client_id: "hvOEMx6GSSGGdKHcPRauPgRP8GxyEfrd"
 };
 
 async function initAuth(){
